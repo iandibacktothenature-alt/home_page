@@ -1,0 +1,23 @@
+# 依存パッケージ（アップロード不要）
+node_modules/
+
+# ビルド成果物（GitHub Actions が自動生成します）
+out/
+dist/
+build/
+
+# 環境変数・ローカル設定（絶対に上げない）
+.env
+.env.local
+.env.*.local
+*.local
+
+# OS・エディタの一時ファイル
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ログ
+*.log
+npm-debug.log*

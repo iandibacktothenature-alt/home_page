@@ -1,0 +1,58 @@
+name: 新着情報を自動取得
+
+# 1時間ごとに note の公式RSS と Instagram の新着投稿を確認し、
+# サイト表示用のデータ（src/data）を更新します。手動実行にも対応しています。
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-feeds
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: リポジトリを取得
+        uses: actions/checkout@v4
+
+      - name: Node.js を準備
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      # 片方が失敗しても、もう片方の更新は続行します。
+      # 失敗した側のデータファイルは書き換えないため、前回取得分が表示され続けます。
+      - name: noteの新着記事を取得
+        continue-on-error: true
+        env:
+          NOTE_RSS_URL: https://note.com/iandi_kominka/rss
+          NOTE_SOURCE_URL: https://note.com/iandi_kominka
+          NOTE_ARTICLE_LIMIT: '6'
+        run: node scripts/fetch-note-rss.mjs
+
+      - name: Instagramの新着投稿を取得
+        continue-on-error: true
+        env:
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
+          INSTAGRAM_HANDLE: iandi_inzai_info
+          INSTAGRAM_POST_LIMIT: '6'
+        run: node scripts/fetch-instagram.mjs
+
+      - name: 変更があればコミットして保存
+        run: |
+          if git diff --quiet -- src/data; then
+            echo "新しい投稿はありませんでした（変更なし）"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data
+          git commit -m "新着情報を自動取得 ($(TZ=Asia/Tokyo date +'%Y-%m-%d %H:%M'))"
+          git push
