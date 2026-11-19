@@ -4,10 +4,18 @@
 
 import type { NoteArticle } from '@/data/noteArticleTypes';
 
-export const noteFetchedAt = "2026-11-19T12:51:45.322Z";
+export const noteFetchedAt = "2026-11-19T14:08:34.514Z";
 export const noteSourceUrl = "https://note.com/iandi_kominka";
 
 export const noteArticles: NoteArticle[] = [
+  {
+    "title": "ひのもとの語りを開催しました10.11(日)",
+    "url": "https://note.com/iandi_kominka/n/n071efb6a8277",
+    "date": "2026.11.19",
+    "isoDate": "2026-11-19T13:20:34.000Z",
+    "image": "https://assets.st-note.com/img/1795057572-nbXB8wHcpuoaOWihtK6jSZmT.png",
+    "excerpt": "「日本とは何か？何が日本を日本たらしめるのか？」 アヤナイが「日本人をやる」という、 少し漠然とした目標を掲げたのは、今年のこと。 それでは、日本人とはなんだろう？ そんな疑問から、精神や「道」、伝統、文化、農業、人との…"
+  },
   {
     "title": "第一回アヤナイ里づくりの日",
     "url": "https://note.com/iandi_kominka/n/n480e4f80af53",
