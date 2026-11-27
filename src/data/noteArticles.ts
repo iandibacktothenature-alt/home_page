@@ -4,7 +4,7 @@
 
 import type { NoteArticle } from '@/data/noteArticleTypes';
 
-export const noteFetchedAt = "2026-11-27T20:43:15.272Z";
+export const noteFetchedAt = "2026-11-27T21:43:13.199Z";
 export const noteSourceUrl = "https://note.com/iandi_kominka";
 
 export const noteArticles: NoteArticle[] = [
